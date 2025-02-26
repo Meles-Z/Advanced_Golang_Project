@@ -1,0 +1,13 @@
+syntax="proto3";
+
+package edusync_grpc;
+
+option go_package="";
+
+message Student{
+    string ID =1
+}
+
+message Teacher{
+    Id string=1;
+}
