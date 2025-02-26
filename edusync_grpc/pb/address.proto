@@ -1,0 +1,63 @@
+syntax = "proto3";
+package address;
+
+option go_package = "github.com/meles-z/edusysnc_grpc/address";
+
+import "google/protobuf/timestamp.proto"; // Import for timestamps
+
+message Address {
+    string ID = 1;
+    string Street = 2;
+    string Location = 3;
+    string Country = 4;
+    google.protobuf.Timestamp CreatedAt = 5;  // Auto-generated, only in responses
+    google.protobuf.Timestamp UpdatedAt = 6;  // Auto-generated, only in responses
+    google.protobuf.Timestamp DeletedAt = 7;  // Auto-generated, only in responses
+}
+
+// ✅ Create Address (No timestamps in request)
+message CreateAddressRequest {
+    Address address = 1;
+}
+message CreateAddressResponse {
+    Address address = 1; // Includes timestamps
+}
+
+// ✅ Get All Addresses
+message GetAllAddressesRequest {} 
+message GetAllAddressesResponse {
+    repeated Address addresses = 1; // Includes timestamps
+}
+
+// ✅ Get Address By ID
+message GetAddressByIdRequest {
+    string id = 1;
+}
+message GetAddressByIdResponse {
+    Address address = 1; // Includes timestamps
+}
+
+// ✅ Update Address (No timestamps in request)
+message UpdateAddressRequest {
+    Address address = 1;
+}
+message UpdateAddressResponse {
+    Address address = 1; // Includes timestamps
+}
+
+// ✅ Delete Address
+message DeleteAddressRequest {
+    string id = 1;
+}
+message DeleteAddressResponse {
+    bool success = 1;
+}
+
+// ✅ Service Definition
+service AddressService {
+    rpc CreateAddress(CreateAddressRequest) returns (CreateAddressResponse);
+    rpc GetAllAddresses(GetAllAddressesRequest) returns (GetAllAddressesResponse);
+    rpc GetAddressById(GetAddressByIdRequest) returns (GetAddressByIdResponse);
+    rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse);
+    rpc DeleteAddress(DeleteAddressRequest) returns (DeleteAddressResponse);
+}

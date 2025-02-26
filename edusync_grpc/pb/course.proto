@@ -1,0 +1,6 @@
+syntax="proto3";
+
+package courses;
+
+option go_package="github.com/meles-z/edusysnc_grpc/courses"
+

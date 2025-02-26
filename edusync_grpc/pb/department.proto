@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package edusync_grpc;
+
+option go_package = "github.com/meles-z/edusysnc_grpc/department";
+
+import "google/protobuf/timestamp.proto";  // Import for timestamps
+
+message Department {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string phone_number = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
