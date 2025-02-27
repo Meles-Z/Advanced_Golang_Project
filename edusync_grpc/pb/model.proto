@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package edusync_grpc;
+
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/model";
+
+import "google/protobuf/timestamp.proto";
+
+message Model {
+    string id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    google.protobuf.Timestamp updated_at = 3;
+    optional google.protobuf.Timestamp deleted_at = 4;
+}

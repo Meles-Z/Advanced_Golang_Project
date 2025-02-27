@@ -1,66 +1,60 @@
-syntax="proto3";
-
+syntax = "proto3";
 package edusync_grpc;
 
-option go_package="github.com/meles-z/edusysnc_grpc/course";
-import "google/protobuf/timestamp";
-import "teacher.proto";
-import "student.proto";
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/course";
 
-message Course{
-    string id=1;
-    string name=2;
-    repeated Teacher teacher=3;
-    repeated Student student=4;
-    google.protobuf.Timestamp created_at=5;
-    google.protobuf.Timestamp updated_at=6;
-    optional google.protobuf.Timestamp deleted_at=7;
+import "model.proto";
+
+
+message Course {
+    Model model=1;
+    string name = 2;
+    repeated string teacher_ids = 3;  // Use IDs instead of importing Teacher
+    repeated string student_ids = 4;  // Use IDs instead of importing Student
 }
 
-message CreateCourseRequest{
-    Course course=1;
+message CreateCourseRequest {
+    Course course = 1;
 }
 
-message CreateCourseResponse{
-    Course course=1;
+message CreateCourseResponse {
+    Course course = 1;
 }
 
-message GetAllCourseRequest{
+message GetAllCourseRequest {}
+
+message GetAllCourseResponse {
+    repeated Course courses = 1;
 }
 
-message GetAllCourseResponse{
-    Course course=1;
+message GetCourseByIdRequest {
+    string id = 1;
 }
 
-message GetCourseByIdRequest{
-    string id=1;
+message GetCourseByIdResponse {
+    Course course = 1;
 }
 
-message GetCourseByIdResponse{
-    Course course=1;
+message UpdateCourseRequest {
+    Course course = 1;
 }
 
-message UpdateCourseRequest{
-    Course course=1;
+message UpdateCourseResponse {
+    Course course = 1;
 }
 
-message UpdateCourseResponse{
-    Course course=1;
-}
-message DeleteCourseRequest{
-    string id=1;
+message DeleteCourseRequest {
+    string id = 1;
 }
 
-message DeleteCourseResponse{
-   bool success=1;
+message DeleteCourseResponse {
+    bool success = 1;
 }
 
-service CourseService{
-    rpc CreateCourse(CreateCourseRequest) returns(CreateCourseResponse);
-    rpc GetAllCourse(GetAllCourseRequest) returns (stream Course);
+service CourseService {
+    rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
+    rpc GetAllCourse(GetAllCourseRequest) returns (GetAllCourseResponse);
     rpc GetCourseById(GetCourseByIdRequest) returns (GetCourseByIdResponse);
     rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
-    rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse)
+    rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
 }
-
-

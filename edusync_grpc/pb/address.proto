@@ -1,71 +1,57 @@
 syntax = "proto3";
+
 package edusync_grpc;
 
-option go_package = "github.com/meles-z/edusysnc_grpc/address";
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/address";
 
-import "google/protobuf/timestamp.proto"; // Import for timestamps
+import "model.proto";
 
-// Represents an address
 message Address {
-    string id = 1;
+    Model model = 1;
     string street = 2;
-    string location = 3;
-    string region = 4;
-    string country = 5;
-    google.protobuf.Timestamp created_at = 6;
-    google.protobuf.Timestamp updated_at = 7;
-    optional google.protobuf.Timestamp deleted_at = 8;  // Optional for soft delete
+    string city = 3;
+    string state = 4;
+    string zip = 5;
 }
 
-// Request to create an address
 message CreateAddressRequest {
     Address address = 1;
 }
 
-// Response after creating an address
 message CreateAddressResponse {
     Address address = 1;
 }
 
-// Request to get all addresses
 message GetAllAddressesRequest {}
 
-// Response containing all addresses
 message GetAllAddressesResponse {
     repeated Address addresses = 1;
 }
 
-// Request to get an address by ID
 message GetAddressByIdRequest {
     string id = 1;
 }
 
-// Response containing an address by ID
 message GetAddressByIdResponse {
     Address address = 1;
 }
 
-// Request to update an address
 message UpdateAddressRequest {
     Address address = 1;
 }
 
-// Response after updating an address
 message UpdateAddressResponse {
     Address address = 1;
 }
 
-// Request to delete an address
 message DeleteAddressRequest {
     string id = 1;
 }
 
-// Response after deleting an address
 message DeleteAddressResponse {
     bool success = 1;
 }
 
-// Service definition for address management
 service AddressService {
     rpc CreateAddress(CreateAddressRequest) returns (CreateAddressResponse);
     rpc GetAllAddresses(GetAllAddressesRequest) returns (GetAllAddressesResponse);

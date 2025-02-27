@@ -1,68 +1,62 @@
-syntax="proto3";
+syntax = "proto3";
 package edusync_grpc;
 
-option go_package = "github.com/meles-z/edusysnc_grpc/teacher";
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/teacher";
+import "address.proto"; // Address is needed
+import "model.proto";
 
-import "google/protobuf/timestamp.proto";
-import "department.proto";
-import "course.proto";
-import "address.proto";
+
 message Teacher {
-    string id = 1;
+    Model model=1;
     string name = 2;
     string email = 3;
     string phone_number = 4;
-    repeated Course courses = 5;  // Many-to-many relationship with courses
-    optional string department_id = 6;  // Nullable foreign key to department
-    optional department.Department department = 7;  // Reference to the department
-    optional string address_id = 8;  // Nullable foreign key to address
-    optional address.Address address = 9;  // Reference to the address
-    google.protobuf.Timestamp created_at = 10;
-    google.protobuf.Timestamp updated_at = 11;
-    optional google.protobuf.Timestamp deleted_at = 12;  // Optional for soft delete
+    repeated string course_ids = 5;  // Use IDs instead of importing Course
+    optional string department_id = 6;  // Use ID instead of importing Department
+    optional Address address = 7;  // Reference to the address
 }
 
-message CreateTeacherRequest{
-    Teacher teacher =1;
+message CreateTeacherRequest {
+    Teacher teacher = 1;
 }
 
-message CreateTeacherResponse{
-    Teacher teacher=1;
+message CreateTeacherResponse {
+    Teacher teacher = 1;
 }
 
-message GetAllTeachersRequest{}
+message GetAllTeachersRequest {}
 
-message GetAllTeachersResponse{
-    Teacher teacher=1;
+message GetAllTeachersResponse {
+    repeated Teacher teachers = 1;
 }
 
-message GetTeacherByIdRequest{
-   string id =1;
+message GetTeacherByIdRequest {
+    string id = 1;
 }
 
-message GetTeacherByIdResponse{
-    Teacher teacher=1;
+message GetTeacherByIdResponse {
+    Teacher teacher = 1;
 }
 
-message UpdateTeacherRequest{
-    Teacher teacher =1;
+message UpdateTeacherRequest {
+    Teacher teacher = 1;
 }
 
-message UpdateTeacherResponse{
-    Teacher teacher=2;
+message UpdateTeacherResponse {
+    Teacher teacher = 1;
 }
 
-message DeleteTeacherRequest{
-    string id=1;
+message DeleteTeacherRequest {
+    string id = 1;
 }
 
-message DeleteTeacherResponse{
-    bool success=1;
+message DeleteTeacherResponse {
+    bool success = 1;
 }
 
-service TeacherService{
-    rpc CreateTeacher (CreateTeacherRequest) returns (CreateTeacherResponse);
-    rpc GetAllTeacher(GetAllTeachersRequest) returns (GetAllTeachersResponse);
+service TeacherService {
+    rpc CreateTeacher(CreateTeacherRequest) returns (CreateTeacherResponse);
+    rpc GetAllTeachers(GetAllTeachersRequest) returns (GetAllTeachersResponse);
     rpc GetTeacherById(GetTeacherByIdRequest) returns (GetTeacherByIdResponse);
     rpc UpdateTeacher(UpdateTeacherRequest) returns (UpdateTeacherResponse);
     rpc DeleteTeacher(DeleteTeacherRequest) returns (DeleteTeacherResponse);

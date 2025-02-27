@@ -1,82 +1,60 @@
 syntax = "proto3";
 package edusync_grpc;
 
-option go_package = "github.com/meles-z/edusysnc_grpc/department";
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/department";
 
-import "google/protobuf/timestamp.proto"; // Import for timestamps
-import "address.proto"; // Import for Address
-import "teacher.proto"; // Import for Teacher
-import "course.proto"; // Import for Course
-import "student.proto"; // Import for Student
-
-// Represents a department
+import "model.proto";
 message Department {
-    string id = 1;
-    string name = 2;
+    Model model=1;
     string email = 3;
     string phone_number = 4;
-    optional string address_id = 5;  // Nullable foreign key to address
-    optional Address address = 6;  // Reference to the address
-    repeated Teacher teachers = 7;  // Many-to-one relationship with teachers
-    repeated Student students = 8;  // Many-to-one relationship with students
-    repeated Course courses = 9;  // Many-to-many relationship with courses
-    google.protobuf.Timestamp created_at = 10;
-    google.protobuf.Timestamp updated_at = 11;
-    optional google.protobuf.Timestamp deleted_at = 12;  // Optional for soft delete
+    optional string address_id = 5;  // Use ID instead of importing Address
+    repeated string teacher_ids = 6;  // Use IDs instead of importing Teacher
+    repeated string student_ids = 7;  // Use IDs instead of importing Student
+    repeated string course_ids = 8;  // Use IDs instead of importing Course
 }
 
-// Request to create a department
 message CreateDepartmentRequest {
     Department department = 1;
 }
 
-// Response after creating a department
 message CreateDepartmentResponse {
     Department department = 1;
 }
 
-// Request to get all departments
 message GetAllDepartmentsRequest {}
 
-// Response containing all departments
 message GetAllDepartmentsResponse {
     repeated Department departments = 1;
 }
 
-// Request to get a department by ID
 message GetDepartmentByIdRequest {
     string id = 1;
 }
 
-// Response containing a department by ID
 message GetDepartmentByIdResponse {
     Department department = 1;
 }
 
-// Request to update a department
 message UpdateDepartmentRequest {
     Department department = 1;
 }
 
-// Response after updating a department
 message UpdateDepartmentResponse {
     Department department = 1;
 }
 
-// Request to delete a department
 message DeleteDepartmentRequest {
     string id = 1;
 }
 
-// Response after deleting a department
 message DeleteDepartmentResponse {
     bool success = 1;
 }
 
-// Service definition for department management
 service DepartmentService {
     rpc CreateDepartment(CreateDepartmentRequest) returns (CreateDepartmentResponse);
-    rpc GetAllDepartments(GetAllDepartmentsRequest) returns (stream Department);
+    rpc GetAllDepartments(GetAllDepartmentsRequest) returns (GetAllDepartmentsResponse);
     rpc GetDepartmentById(GetDepartmentByIdRequest) returns (GetDepartmentByIdResponse);
     rpc UpdateDepartment(UpdateDepartmentRequest) returns (UpdateDepartmentResponse);
     rpc DeleteDepartment(DeleteDepartmentRequest) returns (DeleteDepartmentResponse);

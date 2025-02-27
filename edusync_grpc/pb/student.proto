@@ -1,78 +1,60 @@
 syntax = "proto3";
 package edusync_grpc;
 
-option go_package = "github.com/meles-z/edusysnc_grpc/student";
+option go_package = "github.com/meles-z/edusysnc_grpc/proto/student";
 
-import "google/protobuf/timestamp.proto"; // Import for timestamps
-import "department.proto"; // Import for Department
-import "course.proto"; // Import for Course
+import "model.proto";
 
-// Represents a student in the system
 message Student {
-    string id = 1;
+    Model model=1;
     string name = 2;
     string email = 3;
     string phone_number = 4;
-    repeated Course courses = 5;  // Many-to-many relationship with courses
-    optional string department_id = 6;  // Nullable foreign key to department
-    optional Department department = 7;  // Reference to the department
-    google.protobuf.Timestamp created_at = 8;
-    google.protobuf.Timestamp updated_at = 9;
-    optional google.protobuf.Timestamp deleted_at = 10;  // Optional for soft delete
+    repeated string course_ids = 5;  // Use IDs instead of importing Course
+    optional string department_id = 6;  // Use ID instead of importing Department
 }
 
-// Request to create a student
 message CreateStudentRequest {
     Student student = 1;
 }
 
-// Response after creating a student
 message CreateStudentResponse {
     Student student = 1;
 }
 
-// Request to get all students
 message GetAllStudentsRequest {}
 
-// Response containing all students (streamed for efficiency)
 message GetAllStudentsResponse {
     repeated Student students = 1;
 }
 
-// Request to get a student by ID
 message GetStudentByIdRequest {
     string id = 1;
 }
 
-// Response containing a student by ID
 message GetStudentByIdResponse {
     Student student = 1;
 }
 
-// Request to update a student
 message UpdateStudentRequest {
     Student student = 1;
 }
 
-// Response after updating a student
 message UpdateStudentResponse {
     Student student = 1;
 }
 
-// Request to delete a student
 message DeleteStudentRequest {
     string id = 1;
 }
 
-// Response after deleting a student
 message DeleteStudentResponse {
     bool success = 1;
 }
 
-// Service definition for student management
 service StudentService {
     rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
-    rpc GetAllStudents(GetAllStudentsRequest) returns (stream Student);  // Streaming for efficiency
+    rpc GetAllStudents(GetAllStudentsRequest) returns (stream Student);
     rpc GetStudentById(GetStudentByIdRequest) returns (GetStudentByIdResponse);
     rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
     rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
