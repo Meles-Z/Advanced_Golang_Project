@@ -1,59 +1,71 @@
 syntax = "proto3";
-package address;
+package edusync_grpc;
 
 option go_package = "github.com/meles-z/edusysnc_grpc/address";
 
 import "google/protobuf/timestamp.proto"; // Import for timestamps
 
+// Represents an address
 message Address {
-    string ID = 1;
-    string Street = 2;
-    string Location = 3;
-    string Country = 4;
-    google.protobuf.Timestamp CreatedAt = 5;  // Auto-generated, only in responses
-    google.protobuf.Timestamp UpdatedAt = 6;  // Auto-generated, only in responses
-    google.protobuf.Timestamp DeletedAt = 7;  // Auto-generated, only in responses
+    string id = 1;
+    string street = 2;
+    string location = 3;
+    string region = 4;
+    string country = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+    optional google.protobuf.Timestamp deleted_at = 8;  // Optional for soft delete
 }
 
-// ✅ Create Address (No timestamps in request)
+// Request to create an address
 message CreateAddressRequest {
     Address address = 1;
 }
+
+// Response after creating an address
 message CreateAddressResponse {
-    Address address = 1; // Includes timestamps
+    Address address = 1;
 }
 
-// ✅ Get All Addresses
-message GetAllAddressesRequest {} 
+// Request to get all addresses
+message GetAllAddressesRequest {}
+
+// Response containing all addresses
 message GetAllAddressesResponse {
-    repeated Address addresses = 1; // Includes timestamps
+    repeated Address addresses = 1;
 }
 
-// ✅ Get Address By ID
+// Request to get an address by ID
 message GetAddressByIdRequest {
     string id = 1;
 }
+
+// Response containing an address by ID
 message GetAddressByIdResponse {
-    Address address = 1; // Includes timestamps
+    Address address = 1;
 }
 
-// ✅ Update Address (No timestamps in request)
+// Request to update an address
 message UpdateAddressRequest {
     Address address = 1;
 }
+
+// Response after updating an address
 message UpdateAddressResponse {
-    Address address = 1; // Includes timestamps
+    Address address = 1;
 }
 
-// ✅ Delete Address
+// Request to delete an address
 message DeleteAddressRequest {
     string id = 1;
 }
+
+// Response after deleting an address
 message DeleteAddressResponse {
     bool success = 1;
 }
 
-// ✅ Service Definition
+// Service definition for address management
 service AddressService {
     rpc CreateAddress(CreateAddressRequest) returns (CreateAddressResponse);
     rpc GetAllAddresses(GetAllAddressesRequest) returns (GetAllAddressesResponse);

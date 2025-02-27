@@ -1,12 +1,11 @@
 syntax = "proto3";
-
 package edusync_grpc;
 
 option go_package = "github.com/meles-z/edusysnc_grpc/student";
 
-import "google/protobuf/timestamp.proto";
-import "department.proto";
-import "course.proto";
+import "google/protobuf/timestamp.proto"; // Import for timestamps
+import "department.proto"; // Import for Department
+import "course.proto"; // Import for Course
 
 // Represents a student in the system
 message Student {
@@ -16,7 +15,7 @@ message Student {
     string phone_number = 4;
     repeated Course courses = 5;  // Many-to-many relationship with courses
     optional string department_id = 6;  // Nullable foreign key to department
-    optional edusync_grpc.Department department = 7;  // Reference to the department
+    optional Department department = 7;  // Reference to the department
     google.protobuf.Timestamp created_at = 8;
     google.protobuf.Timestamp updated_at = 9;
     optional google.protobuf.Timestamp deleted_at = 10;  // Optional for soft delete
@@ -72,18 +71,9 @@ message DeleteStudentResponse {
 
 // Service definition for student management
 service StudentService {
-    // Creates a new student
     rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
-
-    // Gets all students (streamed for efficiency)
-    rpc GetAllStudents(GetAllStudentsRequest) returns (stream Student);
-
-    // Gets a student by ID
+    rpc GetAllStudents(GetAllStudentsRequest) returns (stream Student);  // Streaming for efficiency
     rpc GetStudentById(GetStudentByIdRequest) returns (GetStudentByIdResponse);
-
-    // Updates a student
     rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
-
-    // Deletes a student
     rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
 }
