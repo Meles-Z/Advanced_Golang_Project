@@ -8,8 +8,9 @@ type Confgration struct {
 	Auth   Websecret
 }
 type ServerConfigration struct {
-	Host string
-	Port int
+	Host      string
+	Port      int
+	GRPC_PORT int
 }
 
 type DatabaseConfigruration struct {
@@ -36,6 +37,9 @@ func LoadConfig() (*Confgration, error) {
 		return nil, err
 	}
 	if err = viper.BindEnv("server.port", "SERVER_PORT"); err != nil {
+		return nil, err
+	}
+	if err = viper.BindEnv("server.grpc_port", "GRPC_PORT"); err != nil {
 		return nil, err
 	}
 	if err = viper.BindEnv("db.name", "DB_NAME"); err != nil {
