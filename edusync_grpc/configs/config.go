@@ -4,10 +4,10 @@ import "github.com/spf13/viper"
 
 type Confgration struct {
 	DB     DatabaseConfigruration
-	Server Server
+	Server ServerConfigration
 	Auth   Websecret
 }
-type Server struct {
+type ServerConfigration struct {
 	Host string
 	Port int
 }
