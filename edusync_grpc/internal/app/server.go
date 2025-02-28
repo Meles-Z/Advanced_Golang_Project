@@ -31,5 +31,5 @@ func NewServer(cfg c.Confgration) IServer {
 
 func (s *Server) Start() error {
 	e := echo.New()
-	return e.Start(fmt.Sprintf("Server start on:%d", s.cfg.DB.Port))
+	return e.Start(fmt.Sprintf(":%d", s.cfg.Server.Port))
 }

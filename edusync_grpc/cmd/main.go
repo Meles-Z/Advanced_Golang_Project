@@ -20,5 +20,8 @@ func main() {
 		log.Fatal("Could not load config file:", err)
 	}
 	server := app.NewServer(*cfg)
-	log.Fatalln(server)
+	err = server.Start()
+	if err != nil {
+		log.Fatalf("Server failed to start: %s", err.Error())
+	}
 }

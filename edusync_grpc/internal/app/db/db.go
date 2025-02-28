@@ -12,8 +12,8 @@ import (
 var DB *gorm.DB
 
 func InitDB(cfg *configs.DatabaseConfigruration) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s name=%s port=%d user=%s password=%s sslmode=disable",
-		cfg.Host, cfg.Name, cfg.Port, cfg.Username, cfg.Password)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable",
+		cfg.Host, cfg.Port, cfg.Username, cfg.Name, cfg.Password)
 	studentDb, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to db:%s", err)

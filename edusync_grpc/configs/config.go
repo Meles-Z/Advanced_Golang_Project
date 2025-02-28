@@ -27,24 +27,32 @@ type Websecret struct {
 func LoadConfig() (*Confgration, error) {
 	var cfg Confgration
 	var err error
-	viper.AddConfigPath("../")
+	viper.AddConfigPath("./")
 	viper.SetConfigName(".")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 
-	if err = viper.BindEnv("db_host", "DB_HOST"); err != nil {
+	if err = viper.BindEnv("server.host", "SERVER_HOST"); err != nil {
 		return nil, err
 	}
-	if err = viper.BindEnv("db_name", "DB_NAME"); err != nil {
+	if err = viper.BindEnv("server.port", "SERVER_PORT"); err != nil {
 		return nil, err
 	}
-	if err = viper.BindEnv("db_port", "DB_PORT"); err != nil {
+	if err = viper.BindEnv("db.name", "DB_NAME"); err != nil {
 		return nil, err
 	}
-	if err = viper.BindEnv("db_username", "DB_USERNAME"); err != nil {
+
+	if err = viper.BindEnv("db.host", "DB_HOST"); err != nil {
 		return nil, err
 	}
-	if err = viper.BindEnv("db_password", "DB_PASSWORD"); err != nil {
+	if err = viper.BindEnv("db.port", "DB_PORT"); err != nil {
+		return nil, err
+	}
+
+	if err = viper.BindEnv("db.username", "DB_USERNAME"); err != nil {
+		return nil, err
+	}
+	if err = viper.BindEnv("db.password", "DB_PASSWORD"); err != nil {
 		return nil, err
 	}
 
