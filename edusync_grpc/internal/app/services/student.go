@@ -37,9 +37,9 @@ func (srv StudentService) CreateStudent(ctx context.Context, req *student.Create
 	return newStud, nil
 }
 
-func (srv StudentService) GetAllStudent(ctx context.Context, req *student.GetAllStudentsRequest) (*student.GetAllStudentsResponse, error) {
-	students, err := srv.studentRepo.GetAllStudent(ctx, req)
-	if err != nil {
+func (srv StudentService)GetAllStudent(ctx context.Context, req *student.GetAllStudentsRequest) (*student.GetAllStudentsResponse, error){
+	students, err:=srv.studentRepo.GetAllStudent(ctx, req)
+	if err !=nil{
 		return nil, err
 	}
 	return students, nil

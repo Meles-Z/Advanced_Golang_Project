@@ -5,7 +5,6 @@ import (
 	"log"
 	"net"
 
-	"github.com/labstack/echo/v4"
 	c "github.com/meles-z/edusysnc_grpc/configs"
 	"github.com/meles-z/edusysnc_grpc/internal/app/db"
 	"github.com/meles-z/edusysnc_grpc/internal/app/repositories"
@@ -15,15 +14,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type IServer interface {
-	Start() error
-}
-
 type StudentServerImpl struct {
 	student.UnimplementedStudentServiceServer
 	studentService services.IStudentService
 }
 
+type IServer interface {
+	Start() error
+}
 type Server struct {
 	DB             *gorm.DB
 	cfg            c.Confgration
@@ -52,19 +50,9 @@ func NewServer(cfg c.Confgration) IServer {
 }
 
 func (s *Server) Start() error {
-	e := echo.New()
-
-	// Start HTTP Server in a Goroutine
-	go func() {
-		if err := e.Start(fmt.Sprintf(":%d", s.cfg.Server.Port)); err != nil {
-			log.Fatalf("Failed to start HTTP server: %v", err)
-		}
-	}()
-
-	// Start gRPC Server
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", s.cfg.Server.GRPC_PORT))
 	if err != nil {
-		log.Fatalf("failed to listen on port %d:", s.cfg.Server.GRPC_PORT)
+		log.Fatalf("failed to listen on port %d: %v", s.cfg.Server.GRPC_PORT, err)
 	}
 
 	// Register gRPC Services
