@@ -18,7 +18,7 @@ func NewOrderUseCase(repo *repository.OrderRepository, producer *kafka.KafkaProd
 }
 
 func (uc *OrderUseCase) CreateOrder(order *entities.Order) error {
-	if err := uc.Repo.Save(order); err != nil {
+	if err := uc.Repo.CreateOrder(order); err != nil {
 		return err
 	}
 	log.Println("Order saved, publishing event to Kafka...")
