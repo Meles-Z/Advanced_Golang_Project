@@ -48,8 +48,7 @@ func NewServer(cfg configs.Config) IServer {
 func (s *Server) Start() error {
 	e := echo.New()
 
-	// Register routes properly
-	Router(e, *s)
+	Router(e, s)
 
 	port := fmt.Sprintf(":%d", s.Cfg.Server.Port)
 	log.Printf("Server is running on port %s...", port)

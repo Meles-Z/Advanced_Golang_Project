@@ -3,8 +3,6 @@ package kafka
 import (
 	"encoding/json"
 	"log"
-	"payment-service/internal/domain"
-	"payment-service/internal/usecase"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
